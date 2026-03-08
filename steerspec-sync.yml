@@ -9,6 +9,7 @@ variables:
 
 templates:
   - id: claude-md
+    version: "1.0.0"
     type: claude-md
     source: templates/CLAUDE.md.mustache
     destination: CLAUDE.md
