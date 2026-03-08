@@ -1,0 +1,44 @@
+name: SteerSpec Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - 'steerspec-sync.yml'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run (no PRs created/updated)'
+        type: boolean
+        default: false
+      force:
+        description: 'Force sync even if up to date'
+        type: boolean
+        default: false
+      target-filter:
+        description: 'Glob to filter target repos'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Run sync
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+          INPUT_DRY_RUN: ${{ inputs.dry-run || 'false' }}
+          INPUT_FORCE: ${{ inputs.force || 'false' }}
+          INPUT_TARGET_FILTER: ${{ inputs.target-filter }}
+        run: bash scripts/sync.sh
