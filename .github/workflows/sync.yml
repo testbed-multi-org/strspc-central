@@ -29,16 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install yq
-        run: |
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
-
-      - name: Run sync
+      - uses: SteerSpec/strspc-sync/sync@v1
+        with:
+          dry-run: ${{ inputs.dry-run || false }}
+          force: ${{ inputs.force || false }}
+          target-filter: ${{ inputs.target-filter }}
         env:
-          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
-          INPUT_DRY_RUN: ${{ inputs.dry-run || 'false' }}
-          INPUT_FORCE: ${{ inputs.force || 'false' }}
-          INPUT_TARGET_FILTER: ${{ inputs.target-filter }}
-        run: bash scripts/sync.sh
+          GITHUB_TOKEN: ${{ secrets.SYNC_TOKEN }}
