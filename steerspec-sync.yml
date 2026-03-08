@@ -2,7 +2,6 @@ version: "1.0.0"
 
 auth:
   method: github-token
-  token: ${{ secrets.SYNC_TOKEN }}
 
 variables:
   org_name: "testbed-multi-org"
