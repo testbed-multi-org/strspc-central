@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: SteerSpec/strspc-sync/sync@v0.1.0
+      - uses: SteerSpec/strspc-sync/sync@v0.1.1
         with:
           dry-run: ${{ inputs.dry-run || false }}
           force: ${{ inputs.force || false }}
