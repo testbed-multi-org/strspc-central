@@ -1,0 +1,24 @@
+version: "1.0.0"
+
+auth:
+  method: github-token
+  token: ${{ secrets.SYNC_TOKEN }}
+
+variables:
+  org_name: "testbed-multi-org"
+
+templates:
+  - id: claude-md
+    type: claude-md
+    source: templates/CLAUDE.md.mustache
+    destination: CLAUDE.md
+    strategy: mustache
+
+targets:
+  include:
+    - "testbed-multi-org/strspc-test-repo-*"
+  exclude: []
+
+sync:
+  pr-label: steerspec-sync
+  dry-run: false
